@@ -384,7 +384,7 @@ To confirm that the data was successfully saved to your table, run:
 `mysql> SELECT * FROM Adeboye_DB.todo_list;`
 
 You’ll see the following output:
-
+```
 +---------+----------------+
 | item_id | Content        |
 +---------+----------------+
@@ -393,6 +393,7 @@ You’ll see the following output:
 |       3 | Go to the gym  |
 +---------+----------------+
 3 rows in set (0.00 sec)
+```
 After confirming that you have valid data in your test table, you can exit the MySQL console:
 
 `mysql> exit`
