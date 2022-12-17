@@ -56,13 +56,13 @@ Now that you have a web server running, you need a database to manage the data. 
 
 When prompted as highlighted with the red rectangle below, confirm installation by typing y, and then hit ENTER.
 
-Image
+![Image](./images/sudo_apt_install_mysql-server.png)
 
 When the installation is complete, open the MySQL console by typing the code below:
 
 `sudo mysql`
 
-Image
+![Image](./images/sudo_mysql.png)
 
 The use of sudo while running this command implies that it will connect to the MySQL server as the administrator database user root.
 
@@ -84,13 +84,83 @@ If you enabled password validation, you’ll be shown the password strength for 
 
 For the rest of the questions, press Y and hit the ENTER key at each prompt. This will prompt you to change the root password, remove some anonymous users and the test database, disable remote root logins, and load these new rules so that MySQL immediately respects the changes you have made.
 
-Image
+```
+ubuntu@ip-172-31-89-240:~$ sudo mysql_secure_installation
+
+Securing the MySQL server deployment.
+
+Enter password for user root:
+
+VALIDATE PASSWORD COMPONENT can be used to test passwords
+and improve security. It checks the strength of password
+and allows the users to set only those passwords which are
+secure enough. Would you like to setup VALIDATE PASSWORD component?
+
+Press y|Y for Yes, any other key for No: y
+
+There are three levels of password validation policy:
+
+LOW    Length >= 8
+MEDIUM Length >= 8, numeric, mixed case, and special characters
+STRONG Length >= 8, numeric, mixed case, special characters and dictionary                  file
+
+Please enter 0 = LOW, 1 = MEDIUM and 2 = STRONG: 2
+Using existing password for root.
+
+Estimated strength of the password: 100
+Change the password for root ? ((Press y|Y for Yes, any other key for No) : y
+
+New password:
+
+Re-enter new password:
+
+Estimated strength of the password: 100
+Do you wish to continue with the password provided?(Press y|Y for Yes, any other key for No) : y
+By default, a MySQL installation has an anonymous user,
+allowing anyone to log into MySQL without having to have
+a user account created for them. This is intended only for
+testing, and to make the installation go a bit smoother.
+You should remove them before moving into a production
+environment.
+
+Remove anonymous users? (Press y|Y for Yes, any other key for No) : y
+Success.
+
+
+Normally, root should only be allowed to connect from
+'localhost'. This ensures that someone cannot guess at
+the root password from the network.
+
+Disallow root login remotely? (Press y|Y for Yes, any other key for No) : y
+Success.
+
+By default, MySQL comes with a database named 'test' that
+anyone can access. This is also intended only for testing,
+and should be removed before moving into a production
+environment.
+
+
+Remove test database and access to it? (Press y|Y for Yes, any other key for No) : y
+ - Dropping test database...
+Success.
+
+ - Removing privileges on test database...
+Success.
+
+Reloading the privilege tables will ensure that all changes
+made so far will take effect immediately.
+
+Reload privilege tables now? (Press y|Y for Yes, any other key for No) : y
+Success.
+
+All done!
+```
 
 When you’re finished, test if you’re able to log in to the MySQL console by typing:
 
 `sudo mysql -p`
 
-Image
+![Image](./images/sudo_msql-p.png)
 
 Notice the -p flag in this command, which will prompt you for the password used after changing the root user password.
 
@@ -111,6 +181,8 @@ When prompted, type Y and press ENTER to confirm installation.
 
 You now have your PHP components installed. Next, you will configure Nginx to use them.
 
+![image](./images/sudo_apt_install_php-fpm_php-mysql.png)
+
 ## STEP 4 — CONFIGURING NGINX TO USE PHP PROCESSOR
 
 The Nginx web server allows us to establish server blocks, which are similar to virtual hosts in Apache. It allows us to host several domains on a single server by encapsulating configuration information.
@@ -130,9 +202,9 @@ Then, open a new configuration file in Nginx’s `sites-available` directory usi
 `sudo nano /etc/nginx/sites-available/projectLEMP`
 
 This will create a new blank file. Paste in the following configuration:
+```
+#/etc/nginx/sites-available/projectLEMP 
 
-`#/etc/nginx/sites-available/projectLEMP`
- 
 server {
     listen 80;
     server_name projectLEMP www.projectLEMP;
@@ -154,6 +226,7 @@ server {
     }
  
 }
+```
 Here’s what each of these directives and location blocks do:
 
 **listen** — Defines what port Nginx will listen on. In this case, it will listen on port 80, the default port for HTTP.
@@ -182,8 +255,11 @@ This will tell Nginx to use the configuration next time it is reloaded. You can 
 
 You shall see following message:
 
-Image
-
+```
+ubuntu@ip-172-31-89-240:~$ sudo nginx -t
+nginx: the configuration file /etc/nginx/nginx.conf syntax is ok
+nginx: configuration file /etc/nginx/nginx.conf test is successful
+```
 If any errors are reported, go back to your configuration file to review its contents before continuing.
 
 We also need to disable default Nginx host that is currently configured to listen on port 80, for this run:
@@ -202,7 +278,7 @@ Now go to your browser and try to open your website URL using IP address:
 
 `http://<Public-IP-Address>80`
 
-Image
+![Image](./images/hello_lemp.png)
 
 You can leave this file in place as a temporary landing page for your application until you set up an index.php file to replace it. Once you do that, remember to remove or rename the index.html file from your document root, as it would take precedence over an index.php file by default.
 
@@ -229,7 +305,7 @@ You can now access this page in your web browser by visiting the domain name or 
 
 You will see a web page containing detailed information about your server:
 
-Image
+![Image](./images/info.php.png)
 
 After checking the relevant information about your PHP server through that page, it’s best to remove the file you created as it contains sensitive information about your PHP environment and your Ubuntu server. You can use rm to remove that file:
 
@@ -297,8 +373,9 @@ CREATE TABLE Adeboye_DB.todo_list (
     -> Content VARCHAR(255),
     -> PRIMARY KEY(item_id)
     -> );
-Insert a few rows of content in the test table. You might want to repeat the next command a few times, using different VALUES:
+
 ```
+Insert a few rows of content in the test table. You might want to repeat the next command a few times, using different VALUES:
 
 `mysql> INSERT INTO Adeboye_DB.todo_list (content) VALUES ("My first important item");`
 
@@ -320,7 +397,7 @@ After confirming that you have valid data in your test table, you can exit the M
 
 `mysql> exit`
 
-Now you can create a PHP script that will connect to MySQL and query for your content. Create a new PHP file in your custom web root directory using your preferred editor. We’ll use vi for that:
+Now you can create a PHP script that will connect to MySQL and query for your content. Create a new PHP file in your custom web root directory using your preferred editor. We’ll use nano for that:
 
 `nano /var/www/projectLEMP/todo_list.php`
 
@@ -329,9 +406,9 @@ The following PHP script connects to the MySQL database and queries for the cont
 Copy this content into your todo_list.php script:
 ```
 <?php
-$user = "Daniel";
-$password = "Dan!el@1";
-$database = "Daniel_DB";
+$user = "Adeboye";
+$password = "Adeboye@99";
+$database = "Adeboye_DB";
 $table = "todo_list";
  
 try {
@@ -354,6 +431,6 @@ You can now access this page in your web browser by visiting the domain name or 
 
 You should see a page like this, showing the content you’ve inserted in your test table:
 
-Image
+![Image](./images/Todo_list.png)
 
 That means your PHP environment is ready to connect and interact with your MySQL server.
