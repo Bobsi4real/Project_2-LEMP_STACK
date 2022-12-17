@@ -377,7 +377,7 @@ CREATE TABLE Adeboye_DB.todo_list (
 ```
 Insert a few rows of content in the test table. You might want to repeat the next command a few times, using different VALUES:
 
-`mysql> INSERT INTO Adeboye_DB.todo_list (content) VALUES ("My first important item");`
+`mysql> INSERT INTO Adeboye_DB.todo_list (content) VALUES ("Type your preferred content here");`
 
 To confirm that the data was successfully saved to your table, run:
 
@@ -385,14 +385,16 @@ To confirm that the data was successfully saved to your table, run:
 
 You’ll see the following output:
 ```
-+---------+----------------+
-| item_id | Content        |
-+---------+----------------+
-|       1 | Visit a friend |
-|       2 | Get a hair cut |
-|       3 | Go to the gym  |
-+---------+----------------+
-3 rows in set (0.00 sec)
++---------+--------------------------+
+| item_id | Content                  |
++---------+--------------------------+
+|       1 | Moment with God          |
+|       2 | Spend 2hrs on my project |
+|       3 | Visit a friend           |
+|       4 | Practice with the band   |
+|       5 | Submit my DevOps Project |
++---------+--------------------------+
+5 rows in set (0.00 sec)
 ```
 After confirming that you have valid data in your test table, you can exit the MySQL console:
 
